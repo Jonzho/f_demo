@@ -37,7 +37,7 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
   final player = AudioPlayer();
-  
+
   @override
   void initState() {
     super.initState();
@@ -62,13 +62,25 @@ class _MyHomePageState extends State<MyHomePage> {
     }
     if (!player.playing) {
       player.play();
+    } else {
+      player.pause();
     }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: HearAnimationWidget(key: animKey),
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          SizedBox(
+            width: 150,
+            height: 150,
+            child: HearAnimationWidget(key: animKey),
+          ),
+          FaceTeakWidget("ashofagfnalfnsokhjfoiasjho"),
+        ],
+      ),
       // body: Center(child: CustomSwitch(),),
       // body: HeroAnimationRoute(),
       floatingActionButton: FloatingActionButton(
@@ -113,7 +125,7 @@ class _HearAnimationWidgetState extends State<HearAnimationWidget>
     });
 
     animation.addStatusListener((status) {
-      if(status == AnimationStatus.completed) {
+      if (status == AnimationStatus.completed) {
         controller.reverse();
       } else if (status == AnimationStatus.dismissed) {
         controller.forward();
@@ -148,7 +160,8 @@ class _HearAnimationWidgetState extends State<HearAnimationWidget>
 }
 
 class HeatAnimationWidgetItem extends AnimatedWidget {
-  HeatAnimationWidgetItem(Animation animation,{Key? key}) : super(listenable: animation);
+  HeatAnimationWidgetItem(Animation animation, {Key? key})
+      : super(listenable: animation);
 
   @override
   Widget build(BuildContext context) {
@@ -157,6 +170,48 @@ class HeatAnimationWidgetItem extends AnimatedWidget {
       Icons.favorite,
       color: Colors.red,
       size: animation.value,
+    );
+  }
+}
+
+class FaceTeakWidget extends StatefulWidget {
+  final String str;
+
+  FaceTeakWidget(this.str, {Key? key}) : super(key: key);
+
+  @override
+  _FaceTeakWidgetState createState() => _FaceTeakWidgetState();
+}
+
+class _FaceTeakWidgetState extends State<FaceTeakWidget> {
+  final controller = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    start(widget.str);
+  }
+
+  var index = 0;
+
+  void start(String str) {
+    if (index != str.length) {
+      setState(() {
+        index++;
+        controller.text = str.substring(0, index);
+        Future.delayed(const Duration(milliseconds: 200), () {
+          start(str);
+        });
+      });
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return TextField(
+      controller: controller,
+      enabled: false,
+      decoration: const InputDecoration(border: InputBorder.none),
     );
   }
 }
