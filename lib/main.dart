@@ -1,8 +1,9 @@
-import 'dart:ui';
 
-import 'package:f_demo/custom_switch.dart';
-import 'package:f_demo/hero_animation.dart';
+import 'package:Prelude/routes/page.dart';
+import 'package:Prelude/step1.dart';
+import 'package:Prelude/step1_controller.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:just_audio/just_audio.dart';
 
 void main() {
@@ -15,12 +16,14 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
+    Get.lazyPut(() => Step1Controller());
+    return GetMaterialApp(
+      getPages: AppPages.pages,
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const MyHomePage(title: 'Animation'),
+      home: Step1Page(),
     );
   }
 }
